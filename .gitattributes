@@ -1,0 +1,3 @@
+*.cpp linguist-detectable=true
+*.h   linguist-detectable=true
+script/copy_dll.py linguist-detectable=false
