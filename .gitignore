@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+# Qt files
+*.stash
+*.pro
+
+# Other files
+*.mk
+*.txt
+
+# Directories
+bin/
+build/
+doc/html/
