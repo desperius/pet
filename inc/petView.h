@@ -1,24 +1,38 @@
 #ifndef _PET_VIEW_H_
 #define _PET_VIEW_H_
 
+#include <QObject>
 #include <QDialog>
 #include <QListWidget>
 #include <QGridLayout>
 #include <QPushButton>
 
-class petView
+class petView : public QObject
 {
+    Q_OBJECT
+    
 public:
-    petView();
+    explicit petView(QObject* parent = nullptr);
     ~petView();
     
     void Show();
     
+signals:
+
+public slots:
+    void NewClicked(bool checked);
+    
 private:
     QDialog* mDialog;
     QListWidget* mList;
-    QPushButton* mNew;
-    QPushButton* mEdit;
+    QPushButton* mNewBtn;
+    QPushButton* mEditBtn;
+    QPushButton* mBrowseBtn;
+    QPushButton* mDeleteBtn;
+    QPushButton* mMoveUpBtn;
+    QPushButton* mMoveDnBtn;
+    QPushButton* mOkBtn;
+    QPushButton* mCancelBtn;
     QGridLayout* mGrid;
 };
 
