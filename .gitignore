@@ -38,6 +38,7 @@
 # Other files
 *.mk
 *.txt
+*.rc
 
 # Directories
 bin/

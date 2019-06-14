@@ -2,21 +2,27 @@
 <CodeLite_Project Name="pet" Version="10.0.0" InternalType="Console">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00020001Y0005Debug0005qmake00000039CONFIG += debug
+      <![CDATA[00020001Y0005Debug0005qmake00000070CONFIG += debug
 
-QT += core gui widgets0001Y0007Release0005qmake00000041CONFIG += release
+QT += core gui widgets
+
+RC_ICONS = ./res/triangle.ico0001Y0007Release0005qmake00000041CONFIG += release
 
 QT += core gui widgets]]>
     </Plugin>
   </Plugins>
   <VirtualDirectory Name="inc">
+    <File Name="inc/petView.h"/>
     <File Name="inc/main.h"/>
   </VirtualDirectory>
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="src/petView.cpp"/>
     <File Name="src/main.cpp"/>
   </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -113,6 +119,4 @@ QT += core gui widgets]]>
       </Completion>
     </Configuration>
   </Settings>
-  <Dependencies Name="Debug"/>
-  <Dependencies Name="Release"/>
 </CodeLite_Project>
