@@ -34,6 +34,7 @@
 # Qt files
 *.stash
 *.pro
+moc_*
 
 # Other files
 *.mk
