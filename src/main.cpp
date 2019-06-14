@@ -7,6 +7,9 @@ int main(int argc, char **argv)
     std::cout << "Wake up, Neo!" << std::endl;
     
     QApplication app(argc, argv);
+    
+    petView view;
+    view.Show();
 	
     return app.exec();
 }

@@ -1,4 +1,6 @@
-#ifndef __PET_MAIN__
-#define __PET_MAIN__
+#ifndef _PET_MAIN_
+#define _PET_MAIN_
 
-#endif /* __PET_MAIN__ */
+#include "petView.h"
+
+#endif /* _PET_MAIN_ */
