@@ -2,6 +2,9 @@
 #define _PET_VIEW_H_
 
 #include <QDialog>
+#include <QListWidget>
+#include <QGridLayout>
+#include <QPushButton>
 
 class petView
 {
@@ -13,6 +16,10 @@ public:
     
 private:
     QDialog* mDialog;
+    QListWidget* mList;
+    QPushButton* mNew;
+    QPushButton* mEdit;
+    QGridLayout* mGrid;
 };
 
 #endif /* _PET_VIEW_H_ */
