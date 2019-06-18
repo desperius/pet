@@ -20,7 +20,10 @@ public:
 signals:
 
 public slots:
+    //void ItemEdited(QListWidgetItem* item);
     void NewClicked(bool checked);
+    void EditClicked(bool checked);
+    void BrowseClicked(bool checked);
     
 private:
     QDialog* mDialog;

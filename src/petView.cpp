@@ -1,6 +1,7 @@
 #include "petView.h"
 
 #include <QDebug>
+#include <QFileDialog>
 
 #define RELEASE_PTR(var) do { delete var; var = nullptr; } while(0)
 
@@ -23,7 +24,18 @@ petView::petView(QObject* parent)
     mList = new (std::nothrow) QListWidget();
     mList->addItem("Item 0");
     mList->addItem("Item 1");
+    mList->addItem("Item 2");
+    
+    // Makes all items editable
+    for (int i = 0; i < mList->count(); ++i)
+    {
+        QListWidgetItem* item = mList->item(i);
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+    }
+    
     mList->item(0)->setSelected(true);
+    
+    //QObject::connect(mList, &QListWidget::itemChanged, this, &petView::ItemEdited);
     
     mNewBtn = new (std::nothrow) QPushButton("New");
     mNewBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -31,9 +43,11 @@ petView::petView(QObject* parent)
     
     mEditBtn = new (std::nothrow) QPushButton("Edit");
     mEditBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QObject::connect(mEditBtn, &QPushButton::clicked, this, &petView::EditClicked);
     
     mBrowseBtn = new (std::nothrow) QPushButton("Browse...");
     mBrowseBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QObject::connect(mBrowseBtn, &QPushButton::clicked, this, &petView::BrowseClicked);
     
     mDeleteBtn = new (std::nothrow) QPushButton("Delete");
     mDeleteBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -86,14 +100,47 @@ void petView::Show()
     }
 }
 
+//void petView::ItemEdited(QListWidgetItem* item)
+//{
+//    qDebug() << __func__ << "clicked";
+//    qDebug() << item->text();
+//    
+//    if (item->text().isEmpty())
+//    {
+//        mList->removeItemWidget(item);
+//    }
+//}
+
 void petView::NewClicked(bool checked)
 {
     (void)checked;
-    qInfo() << "clicked";
+    qDebug() << __func__ << "clicked";
     mList->addItem("");
     int count = mList->count();
     QListWidgetItem* item = mList->item(count - 1);
     item->setFlags(item->flags() | Qt::ItemIsEditable);
     item->setSelected(true);
+    mList->setCurrentItem(item);
     mList->editItem(item);
+}
+
+void petView::EditClicked(bool checked)
+{
+    (void)checked;
+    qDebug() << __func__ << "clicked";
+    QListWidgetItem* item = mList->currentItem();
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
+    mList->editItem(item);
+}
+
+void petView::BrowseClicked(bool checked)
+{
+    (void)checked;
+    qDebug() << __func__ << "clicked";
+    QString dir = QFileDialog::getExistingDirectory(nullptr, tr("Directory Dialog"), "", QFileDialog::ShowDirsOnly);
+    
+    if (!dir.isEmpty())
+    {
+        mList->currentItem()->setText(dir);
+    }
 }
