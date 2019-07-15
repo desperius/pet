@@ -26,6 +26,9 @@ petView::petView(QObject* parent)
     mList->addItem("Item 1");
     mList->addItem("Item 2");
     
+    //mList->removeItemWidget(mList->item(mList->count() - 1));
+    //delete mList->item(mList->count() - 1);
+    
     // Makes all items editable
     for (int i = 0; i < mList->count(); ++i)
     {
@@ -34,8 +37,6 @@ petView::petView(QObject* parent)
     }
     
     mList->item(0)->setSelected(true);
-    
-    //QObject::connect(mList, &QListWidget::itemChanged, this, &petView::ItemEdited);
     
     mNewBtn = new (std::nothrow) QPushButton("New");
     mNewBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -51,12 +52,15 @@ petView::petView(QObject* parent)
     
     mDeleteBtn = new (std::nothrow) QPushButton("Delete");
     mDeleteBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QObject::connect(mDeleteBtn, &QPushButton::clicked, this, &petView::DeleteClicked);
     
     mMoveUpBtn = new (std::nothrow) QPushButton("Move Up");
     mMoveUpBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QObject::connect(mMoveUpBtn, &QPushButton::clicked, this, &petView::MoveUpClicked);
     
     mMoveDnBtn = new (std::nothrow) QPushButton("Move Down");
     mMoveDnBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QObject::connect(mMoveDnBtn, &QPushButton::clicked, this, &petView::MoveDnClicked);
     
     mOkBtn = new (std::nothrow) QPushButton("OK");
     mOkBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -81,15 +85,17 @@ petView::petView(QObject* parent)
 
 petView::~petView()
 {
+    //RELEASE_PTR(mList);
+    //RELEASE_PTR(mNewBtn);
+    //RELEASE_PTR(mEditBtn);
+    //RELEASE_PTR(mBrowseBtn);
+    //RELEASE_PTR(mDeleteBtn);
+    //RELEASE_PTR(mMoveUpBtn);
+    //RELEASE_PTR(mMoveDnBtn);
+    //RELEASE_PTR(mGrid);
+    
+    // Delete only parent object here
     RELEASE_PTR(mDialog);
-    RELEASE_PTR(mList);
-    RELEASE_PTR(mNewBtn);
-    RELEASE_PTR(mEditBtn);
-    RELEASE_PTR(mBrowseBtn);
-    RELEASE_PTR(mDeleteBtn);
-    RELEASE_PTR(mMoveUpBtn);
-    RELEASE_PTR(mMoveDnBtn);
-    RELEASE_PTR(mGrid);
 }
 
 void petView::Show()
@@ -99,17 +105,6 @@ void petView::Show()
         mDialog->show();
     }
 }
-
-//void petView::ItemEdited(QListWidgetItem* item)
-//{
-//    qDebug() << __func__ << "clicked";
-//    qDebug() << item->text();
-//    
-//    if (item->text().isEmpty())
-//    {
-//        mList->removeItemWidget(item);
-//    }
-//}
 
 void petView::NewClicked(bool checked)
 {
@@ -142,5 +137,40 @@ void petView::BrowseClicked(bool checked)
     if (!dir.isEmpty())
     {
         mList->currentItem()->setText(dir);
+    }
+}
+
+void petView::DeleteClicked(bool checked)
+{
+    (void)checked;
+    qDebug() << __func__ << "clicked";
+    delete mList->currentItem();
+}
+
+void petView::MoveUpClicked(bool checked)
+{
+    (void)checked;
+    qDebug() << __func__ << "clicked";
+    int row = mList->currentRow();
+    
+    if ((row - 1) >= 0)
+    {
+        QListWidgetItem* currentItem = mList->takeItem(row);
+        mList->insertItem(row - 1, currentItem);
+        mList->setCurrentRow(row - 1);
+    }
+}
+
+void petView::MoveDnClicked(bool checked)
+{
+    (void)checked;
+    qDebug() << __func__ << "clicked";
+    int row = mList->currentRow();
+    
+    if ((row + 1) < mList->count())
+    {
+        QListWidgetItem* currentItem = mList->takeItem(row);
+        mList->insertItem(row + 1, currentItem);
+        mList->setCurrentRow(row + 1);
     }
 }
