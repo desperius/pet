@@ -8,7 +8,7 @@ int main(int argc, char **argv)
     
     QApplication app(argc, argv);
     
-    petView view;
+    pet::petView view;
     view.Show();
 	
     return app.exec();

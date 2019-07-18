@@ -7,6 +7,11 @@
 #include <QGridLayout>
 #include <QPushButton>
 
+#include "petModel.h"
+
+namespace pet
+{
+
 class petView : public QObject
 {
     Q_OBJECT
@@ -26,6 +31,8 @@ public slots:
     void DeleteClicked(bool checked);
     void MoveUpClicked(bool checked);
     void MoveDnClicked(bool checked);
+    void OkClicked(bool checked);
+    void CancelClicked(bool checked);
     
 private:
     QDialog* mDialog;
@@ -39,6 +46,10 @@ private:
     QPushButton* mOkBtn;
     QPushButton* mCancelBtn;
     QGridLayout* mGrid;
+    
+    std::shared_ptr<petModel> mModel;
 };
+
+} /* namespace pet */
 
 #endif /* _PET_VIEW_H_ */

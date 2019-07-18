@@ -12,12 +12,14 @@ QT += core gui widgets]]>
     </Plugin>
   </Plugins>
   <VirtualDirectory Name="inc">
+    <File Name="inc/petModel.h"/>
     <File Name="inc/petView.h"/>
     <File Name="inc/main.h"/>
   </VirtualDirectory>
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="src/petModel.cpp"/>
     <File Name="src/petView.cpp"/>
     <File Name="src/main.cpp"/>
   </VirtualDirectory>

@@ -3,6 +3,9 @@
 #include <QDebug>
 #include <QFileDialog>
 
+namespace pet
+{
+
 #define RELEASE_PTR(var) do { delete var; var = nullptr; } while(0)
 
 petView::petView(QObject* parent) 
@@ -19,15 +22,27 @@ petView::petView(QObject* parent)
     , mCancelBtn(nullptr)
     , mGrid(nullptr)
 {
+    mModel = std::make_shared<petModel>();
+    
     mDialog = new (std::nothrow) QDialog(nullptr, Qt::WindowCloseButtonHint);
     
     mList = new (std::nothrow) QListWidget();
-    mList->addItem("Item 0");
-    mList->addItem("Item 1");
-    mList->addItem("Item 2");
     
-    //mList->removeItemWidget(mList->item(mList->count() - 1));
-    //delete mList->item(mList->count() - 1);
+    if (0)
+    {
+        mList->addItem("Item 0");
+        mList->addItem("Item 1");
+        mList->addItem("Item 2");
+    }
+    else
+    {
+        std::list<std::string> paths = mModel->GetPaths();
+        
+        for (auto& path : paths)
+        {
+            mList->addItem(path.c_str());
+        }
+    }
     
     // Makes all items editable
     for (int i = 0; i < mList->count(); ++i)
@@ -64,9 +79,11 @@ petView::petView(QObject* parent)
     
     mOkBtn = new (std::nothrow) QPushButton("OK");
     mOkBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QObject::connect(mOkBtn, &QPushButton::clicked, this, &petView::OkClicked);
     
     mCancelBtn = new (std::nothrow) QPushButton("Cancel");
     mCancelBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QObject::connect(mCancelBtn, &QPushButton::clicked, this, &petView::CancelClicked);
     
     mGrid = new (std::nothrow) QGridLayout();
     mGrid->addWidget(mList, 0, 0, 7, 4);
@@ -84,16 +101,7 @@ petView::petView(QObject* parent)
 }
 
 petView::~petView()
-{
-    //RELEASE_PTR(mList);
-    //RELEASE_PTR(mNewBtn);
-    //RELEASE_PTR(mEditBtn);
-    //RELEASE_PTR(mBrowseBtn);
-    //RELEASE_PTR(mDeleteBtn);
-    //RELEASE_PTR(mMoveUpBtn);
-    //RELEASE_PTR(mMoveDnBtn);
-    //RELEASE_PTR(mGrid);
-    
+{    
     // Delete only parent object here
     RELEASE_PTR(mDialog);
 }
@@ -174,3 +182,17 @@ void petView::MoveDnClicked(bool checked)
         mList->setCurrentRow(row + 1);
     }
 }
+
+void petView::OkClicked(bool checked)
+{
+    (void)checked;
+    qDebug() << __func__ << "clicked";
+}
+
+void petView::CancelClicked(bool checked)
+{
+    (void)checked;
+    qDebug() << __func__ << "clicked";
+}
+
+} /* namespace pet */
