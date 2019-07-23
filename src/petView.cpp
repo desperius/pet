@@ -21,9 +21,8 @@ petView::petView(QObject* parent)
     , mOkBtn(nullptr)
     , mCancelBtn(nullptr)
     , mGrid(nullptr)
-{
-    mModel = std::make_shared<petModel>();
-    
+    , mModel(std::make_shared<petModel>())
+{    
     mDialog = new (std::nothrow) QDialog(nullptr, Qt::WindowCloseButtonHint);
     
     mList = new (std::nothrow) QListWidget();
@@ -102,7 +101,8 @@ petView::petView(QObject* parent)
 
 petView::~petView()
 {    
-    // Delete only parent object here
+    // Deletes only parent object here
+    // because Qt handles the situation with child objects
     RELEASE_PTR(mDialog);
 }
 
@@ -187,6 +187,7 @@ void petView::OkClicked(bool checked)
 {
     (void)checked;
     qDebug() << __func__ << "clicked";
+    mModel->Update();
 }
 
 void petView::CancelClicked(bool checked)

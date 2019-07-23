@@ -5,6 +5,8 @@
 #include <string>
 #include <memory>
 
+#include <windows.h>
+
 namespace pet
 {
 
@@ -12,10 +14,15 @@ class petModel
 {
 public:
     petModel();
+    ~petModel();
+    
+    bool Init();
+    bool Update() { return true; }
     
     std::list<std::string> GetPaths() { return mPaths; }
     
 private:
+    HKEY mOpenKey;
     std::list<std::string> mPaths;
 };
 

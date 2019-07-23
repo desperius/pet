@@ -1,7 +1,6 @@
 #include "petModel.h"
 
 #include <regex>
-#include <windows.h>
 #include <QDebug>
 
 namespace pet
@@ -30,22 +29,21 @@ petModel::petModel()
     DWORD options = 0;
     REGSAM samDesired = KEY_ALL_ACCESS;
     
-    HKEY openResult;
-    LPCSTR valueName = "Fake";
+    LPCSTR valueName = TEXT("Fake");
     DWORD flags = RRF_RT_ANY;
     
     DWORD dataType;
-    CHAR value[1024];
+    CHAR value[4096];
     DWORD valSize = sizeof(value);
     
-    LONG err = RegOpenKeyExA(key, subKey, options, samDesired, &openResult);
+    LONG err = RegOpenKeyExA(key, subKey, options, samDesired, &mOpenKey);
     
     if (err != ERROR_SUCCESS)
     {
         return;
     }
     
-    err = RegGetValueA(openResult, nullptr, valueName, flags, &dataType, static_cast<PVOID>(value), &valSize);
+    err = RegGetValueA(mOpenKey, nullptr, valueName, flags, &dataType, static_cast<PVOID>(value), &valSize);
     
     if (err != ERROR_SUCCESS)
     {
@@ -67,8 +65,6 @@ petModel::petModel()
         }
     }
     
-    RegCloseKey(openResult);
-    
     // Parese a value of the environment variable
     std::string env(value);
     qDebug() << "len: " << env.length();
@@ -88,6 +84,21 @@ petModel::petModel()
             ++rit;
         }
     }
+    
+//    std::string new_val;
+//    
+//    for (auto& path : mPaths)
+//    {
+//        new_val.append(path);
+//        new_val.append(";");
+//    }
+//    
+//    RegSetValueExA(mOpenKey, valueName, 0, REG_SZ, reinterpret_cast<const unsigned char*>(new_val.c_str()), new_val.length());
+}
+
+petModel::~petModel()
+{
+    RegCloseKey(mOpenKey);
 }
 
 } /* namespace pet */

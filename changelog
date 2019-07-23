@@ -1,1 +1,3 @@
-Project was added and set up properly. Post-build script does not work. It looks like a bug in CodeLite.
+Test string for regular expression for parsing a value of PATH environment variable:
+name: Fake
+data: F:\ake data(x86) for check;  Can %modify% this;;;Try to/

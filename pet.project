@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="pet" Version="10.0.0" InternalType="Console">
   <Plugins>
+    <Plugin Name="CppCheck"/>
     <Plugin Name="qmake">
       <![CDATA[00020001Y0005Debug0005qmake00000070CONFIG += debug
 
