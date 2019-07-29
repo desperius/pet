@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QFileDialog>
+#include <QMessageBox>
 
 namespace pet
 {
@@ -97,6 +98,7 @@ petView::petView(QObject* parent)
     mGrid->addWidget(mCancelBtn, 7, 4);
     
     mDialog->setLayout(mGrid);
+    mDialog->setWindowTitle("PET");
 }
 
 petView::~petView()
@@ -111,6 +113,25 @@ void petView::Show()
     if (mDialog)
     {
         mDialog->show();
+    }
+}
+
+void petView::RemoveInvalidPaths()
+{
+    int row = 0;
+    
+    while (row < mList->count())
+    {
+        auto item = mList->item(row);
+        
+        if (!QDir(item->text()).exists())
+        {
+            delete mList->takeItem(row);
+        }
+        else
+        {
+            ++row;
+        }
     }
 }
 
@@ -187,13 +208,45 @@ void petView::OkClicked(bool checked)
 {
     (void)checked;
     qDebug() << __func__ << "clicked";
-    mModel->Update();
+    
+    // Ask user by message about removing invalid paths
+    QMessageBox::StandardButton reply;
+    const std::string msg("Invalid paths detected!\nDo you want to remove them?");
+    reply = QMessageBox::question(nullptr, tr("PET"), tr(msg.c_str()), QMessageBox::Yes | QMessageBox::No);
+    
+    if (QMessageBox::Yes == reply)
+    {
+        // Delete lines which does not contain a valid or existing directory path
+        RemoveInvalidPaths();
+    }
+    
+    std::list<std::string> paths;
+    
+    for (int i = 0; i < mList->count(); ++i)
+    {
+        std::string path = mList->item(i)->text().toStdString();
+        
+        if (QDir(path.c_str()).exists())
+        {
+            paths.push_back(path);
+        }
+    }
+    
+    if (mModel->Update(paths))
+    {
+        QMessageBox::information(nullptr, tr("PET"), tr("SUCCESS!"));
+    }
+    else
+    {
+        QMessageBox::critical(nullptr, tr("PET"), tr("FAILURE!"));
+    }
 }
 
 void petView::CancelClicked(bool checked)
 {
     (void)checked;
     qDebug() << __func__ << "clicked";
+    mDialog->hide();
 }
 
 } /* namespace pet */

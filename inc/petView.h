@@ -22,6 +22,9 @@ public:
     
     void Show();
     
+private:
+    void RemoveInvalidPaths();
+    
 signals:
 
 public slots:

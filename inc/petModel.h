@@ -17,7 +17,7 @@ public:
     ~petModel();
     
     bool Init();
-    bool Update() { return true; }
+    bool Update(std::list<std::string> paths);
     
     std::list<std::string> GetPaths() { return mPaths; }
     
