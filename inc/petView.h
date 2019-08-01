@@ -6,6 +6,7 @@
 #include <QListWidget>
 #include <QGridLayout>
 #include <QPushButton>
+#include <string>
 
 #include "petModel.h"
 
@@ -20,9 +21,23 @@ public:
     explicit petView(QObject* parent = nullptr);
     ~petView();
     
+    petView(const petView&) = delete;
+    petView(petView&&) = delete;
+    
+    petView& operator=(const petView&) = delete;
+    petView& operator=(petView&&) = delete;
+    
+    void Init();
     void Show();
     
+public:
+    static constexpr const char* APP_NAME = "PET";
+    
 private:
+    void CreateListWidget();
+    void CreateButtons();
+    void CreateGridLayout();
+    void CreateWinDialog();
     void RemoveInvalidPaths();
     
 signals:
@@ -38,19 +53,19 @@ public slots:
     void CancelClicked(bool checked);
     
 private:
-    QDialog* mDialog;
-    QListWidget* mList;
-    QPushButton* mNewBtn;
-    QPushButton* mEditBtn;
-    QPushButton* mBrowseBtn;
-    QPushButton* mDeleteBtn;
-    QPushButton* mMoveUpBtn;
-    QPushButton* mMoveDnBtn;
-    QPushButton* mOkBtn;
-    QPushButton* mCancelBtn;
-    QGridLayout* mGrid;
+    QDialog* mDialog = nullptr;
+    QListWidget* mList = nullptr;
+    QPushButton* mNewBtn = nullptr;
+    QPushButton* mEditBtn = nullptr;
+    QPushButton* mBrowseBtn = nullptr;
+    QPushButton* mDeleteBtn = nullptr;
+    QPushButton* mMoveUpBtn = nullptr;
+    QPushButton* mMoveDnBtn = nullptr;
+    QPushButton* mOkBtn = nullptr;
+    QPushButton* mCancelBtn = nullptr;
+    QGridLayout* mGrid = nullptr;
     
-    std::shared_ptr<petModel> mModel;
+    std::unique_ptr<petModel> mModel;
 };
 
 } /* namespace pet */
