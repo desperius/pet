@@ -23,6 +23,11 @@ petView::~petView()
 
 void petView::Init()
 {
+    if (!mModel->Init())
+    {
+        throw std::runtime_error("Failed to get Environment Variable value!");
+    }
+    
     CreateListWidget();
     CreateButtons();
     CreateGridLayout();
