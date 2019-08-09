@@ -1,3 +1,12 @@
+/**
+ * @file      petView.h
+ * @brif      Contains class for Viewer of data in MVC architecture.
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      09/08/2019
+ * @copyright GNU Public License
+ */
+ 
 #ifndef _PET_VIEW_H_
 #define _PET_VIEW_H_
 
@@ -13,6 +22,12 @@
 namespace pet
 {
 
+/**
+ * @class petView
+ * @date 09/08/2019
+ * @file petView.h
+ * @brief This class is responsible for displaying of data via Qt widgets. The data should be received from petModel.
+ */
 class petView : public QObject
 {
     Q_OBJECT
@@ -27,10 +42,18 @@ public:
     petView& operator=(const petView&) = delete;
     petView& operator=(petView&&) = delete;
     
+    /**
+     * @brief Gets data from Model and creates Qt widgets.
+     */
     void Init();
+    
+    /**
+     * @brief Just a wrapper for widget show() function.
+     */
     void Show();
     
 public:
+    //! Name of the application
     static constexpr const char* APP_NAME = "PET";
     
 private:
@@ -38,6 +61,10 @@ private:
     void CreateButtons();
     void CreateGridLayout();
     void CreateWinDialog();
+    
+    /**
+     * @brief Checks and remove invalid paths from list.
+     */
     void RemoveInvalidPaths();
     
 signals:

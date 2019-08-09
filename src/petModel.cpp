@@ -1,3 +1,12 @@
+/**
+ * @file      petModel.cpp
+ * @brif      Contains implementation of class for Model of data shape in MVC architecture.
+ * @author    Alexander Orel (desperius@gmail.com)
+ * @version   1.0
+ * @date      09/08/2019
+ * @copyright GNU Public License
+ */
+
 #include "petModel.h"
 
 #include <regex>
