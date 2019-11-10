@@ -2,9 +2,7 @@
 <CodeLite_Project Name="pet" Version="10.0.0" InternalType="Console">
   <Plugins>
     <Plugin Name="qmake">
-      <![CDATA[00020001Y0005Debug0005qmake00000070CONFIG += debug
-
-QT += core gui widgets
+      <![CDATA[00020001Y0005Debug0010MingwQMake00000044QT += widgets
 
 RC_ICONS = ./res/triangle.ico0001Y0007Release0005qmake00000072CONFIG += release
 

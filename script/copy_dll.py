@@ -1,8 +1,10 @@
-import sys
+""" Script for dll copying """
 import os
 import re
 
 def copy_dll():
+    """ Parse and copy needed dll """
+    # Qt version 5.12.2
     with open('pet.mk') as mk_file:
         lines = mk_file.readlines()
 
@@ -10,13 +12,11 @@ def copy_dll():
         # Tries to get a string with path to libraries from project mk file
         lib = re.match(r'(LIBS+.*)', line, flags=0)
 
-        if lib != None:
-            lib = lib.group()
-            
+        if lib is not None:
+            lib = lib.group()         
             # Gets only a path to libraries
             path = re.search(r'-L[\w\:\\\.\-]+\s', lib, flags=0)
-			
-            if path != None:
+            if path is not None:
                 # Creates path to platform plugin library which will be needed to run an .exe file in future
                 plugins = path.group().strip()[2:-3] + 'plugins\\platforms\\qwindows.dll'
                 # Creates path to Qt libraries which will be needed to run .exe file
